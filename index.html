@@ -42,11 +42,16 @@
   }
 
   header h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3rem;
-    color: #ff0044;
-    text-shadow: 0 0 10px #ff0044, 0 0 20px #ff8800;
-  }
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  background: linear-gradient(90deg, #ff4040, #ffb347);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.5rem;
+}
+
 
   header p {
     color: #fefefe;
