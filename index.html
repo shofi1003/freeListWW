@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista Free - WASA WASA 🔥</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap');
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    background-color: #000;
+
+    /* 🔥 Fondo mosaico con logo */
+    background-image: url('Wasawasa.png');
+    background-repeat: repeat;
+    background-size: 120px; /* ajusta el tamaño del logo */
+    background-position: center;
+    background-attachment: fixed;
+
+    /* Efecto general */
+    backdrop-filter: brightness(0.5);
+  }
+  body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* opacidad de la capa */
+  z-index: -1;
+}
+
+
+  header {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: #ff0044;
+    text-shadow: 0 0 10px #ff0044, 0 0 20px #ff8800;
+  }
+
+  header p {
+    color: #fefefe;
+    font-size: 1.1rem;
+    margin-top: -10px;
+  }
+
+  .contenedor {
+    max-width: 500px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #ff0044;
+    border-radius: 20px;
+    box-shadow: 0 0 25px #ff0044;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  #contador {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #00ffcc;
+    text-shadow: 0 0 10px #00ffaa;
+    margin-bottom: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  input {
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  button {
+    padding: 0.9rem;
+    background: linear-gradient(45deg, #ff0044, #ff6600);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ff0044;
+  }
+
+  .flyer {
+    width: 80%;
+    margin: 20px auto;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #ff0044;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    color: #ffcccc;
+  }
+
+  footer a {
+    color: #ff0044;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+</head>
+<body>
+
+  <header>
+    <h1>🔥 OCTUBRE EN LLAMAS 🔥</h1>
+    <p>No te quedes sin tu cupo FREE — <strong>Hasta las 2:00 PM</strong></p>
+  </header>
+
+  <div class="contenedor">
+    <img src="flyer.jpeg" alt="Flyer del evento" class="flyer">
+
+    <div id="contador">
+      Cupos disponibles: <span id="cupos">...</span> / 200
+    </div>
+
+    <form id="registroForm">
+      <input type="text" id="nombre" placeholder="Nombre completo" required>
+      <input type="number" id="documento" placeholder="Documento de identidad" required>
+      <input type="tel" id="telefono" placeholder="Número de teléfono" required>
+      <button type="submit">Registrarme GRATIS</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>📍 WASA WASA — Av Caracas #40-47, Bogotá</p>
+    <p>Síguenos en <a href="https://instagram.com/wasawasa.bog" target="_blank">@wasawasa.bog</a></p>
+  </footer>
+
+ <script type="module">
+  // Importar desde CDN
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  // Tu configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCjRI6e6aaALXNymylDUszkIm8Glq7RGTo",
+    authDomain: "lista-free-wasa.firebaseapp.com",
+    projectId: "lista-free-wasa",
+    storageBucket: "lista-free-wasa.firebasestorage.app",
+    messagingSenderId: "1022448209563",
+    appId: "1:1022448209563:web:1ef3984120b1c357c0803e"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function registrarPersona(nombre, cedula, telefono) {
+    try {
+      const registros = await getDocs(collection(db, "listaFree"));
+      const existe = registros.docs.some(doc => doc.data().cedula === cedula);
+
+      if (existe) {
+        alert("⚠️ Esta cédula ya está registrada.");
+        return;
+      }
+
+      if (registros.size >= 200) {
+        alert("🚫 Lista llena, ya no hay cupos disponibles.");
+        return;
+      }
+
+      await addDoc(collection(db, "listaFree"), {
+        nombre,
+        cedula,
+        telefono,
+        fecha: new Date().toISOString()
+      });
+
+      alert("✅ Registrado correctamente.");
+      actualizarContador();
+    } catch (error) {
+      console.error("❌ Error al registrar:", error);
+      alert("Error al registrar. Revisa la consola (Ctrl + Shift + J).");
+    }
+  }
+
+  async function actualizarContador() {
+    try {
+      const registros = await getDocs(collection(db, "listaFree"));
+      const cupos = 200 - registros.size;
+      document.getElementById("cupos").textContent = cupos;
+    } catch (error) {
+      console.error("Error al contar:", error);
+    }
+  }
+
+  document.getElementById("registroForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre").value.trim();
+    const cedula = document.getElementById("documento").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+
+    if (!nombre || !cedula || !telefono) {
+      alert("Completa todos los campos.");
+      return;
+    }
+
+    await registrarPersona(nombre, cedula, telefono);
+    e.target.reset();
+  });
+
+  actualizarContador();
+</script>
+
+
+</body>
+</html>
