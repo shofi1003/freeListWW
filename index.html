@@ -1,183 +1,243 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inscripción FreeList</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista Free - WASA WASA 🔥</title>
   <style>
-    /* 🌈 ESTILOS GENERALES */
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #111827, #1f2937);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap');
 
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      color: #facc15;
-    }
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    background-color: #000;
+    background-image: url('Wasawasa.png');
+    background-repeat: repeat;
+    background-size: 120px;
+    background-position: center;
+    background-attachment: fixed;
+    backdrop-filter: brightness(0.5);
+  }
 
-    #counter {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 25px;
-      padding: 10px 20px;
-      border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+  }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      background-color: rgba(255, 255, 255, 0.05);
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
+  header {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
 
-    input {
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-      outline: none;
-      text-align: center;
-    }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    background: linear-gradient(90deg, #ff4040, #ffb347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    margin-bottom: 0.5rem;
+  }
 
-    button {
-      background-color: #22c55e;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      color: white;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+  header p {
+    color: #fefefe;
+    font-size: 1.1rem;
+    margin-top: -10px;
+  }
 
-    button:hover {
-      background-color: #16a34a;
-      transform: scale(1.05);
-    }
+  .contenedor {
+    max-width: 500px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #ff0044;
+    border-radius: 20px;
+    box-shadow: 0 0 25px #ff0044;
+    padding: 2rem;
+    text-align: center;
+  }
 
-    button:disabled {
-      background-color: #9ca3af;
-      cursor: not-allowed;
-    }
+  #contador {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #00ffcc;
+    text-shadow: 0 0 10px #00ffaa;
+    margin-bottom: 1rem;
+  }
 
-    footer {
-      position: absolute;
-      bottom: 15px;
-      font-size: 0.8rem;
-      color: #9ca3af;
-    }
+  #estado {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #ff4444;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  input {
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  button {
+    padding: 0.9rem;
+    background: linear-gradient(45deg, #ff0044, #ff6600);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ff0044;
+  }
+
+  .flyer {
+    width: 80%;
+    margin: 20px auto;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #ff0044;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    color: #ffcccc;
+  }
+
+  footer a {
+    color: #ff0044;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
   </style>
 </head>
 <body>
-  <h2>Inscripciones FreeList</h2>
-  <h3 id="counter">Cargando...</h3>
 
-  <form id="registerForm">
-    <input type="text" id="nameInput" placeholder="Tu nombre completo" required />
-    <button type="submit" id="registerBtn">Inscribirme</button>
-  </form>
+  <header>
+    <h1>🔥 OCTUBRE EN LLAMAS 🔥</h1>
+    <p>No te quedes sin tu cupo FREE — <strong>Hasta las 2:00 PM</strong></p>
+  </header>
 
-  <footer>© 2025 FreeList | Cupos limitados a 100</footer>
+  <div class="contenedor">
+    <img src="flyer.jpeg" alt="Flyer del evento" class="flyer">
 
-  <!-- 🚀 FIREBASE + JS -->
+    <div id="contador">Cupos disponibles: <span id="cupos">...</span> / 100</div>
+    <div id="estado"></div>
+
+    <form id="registroForm">
+      <input type="text" id="nombre" placeholder="Nombre completo" required>
+      <input type="number" id="documento" placeholder="Documento de identidad" required>
+      <input type="tel" id="telefono" placeholder="Número de teléfono" required>
+      <button type="submit" id="registrarBtn">Registrarme GRATIS</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>📍 WASA WASA — Av Caracas #40-47, Bogotá</p>
+    <p>Síguenos en <a href="https://instagram.com/wasawasa.bog" target="_blank">@wasawasa.bog</a></p>
+  </footer>
+
   <script type="module">
-    // Importar Firebase y Firestore
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // 🔐 Configuración de Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyCjRI6e6aaALXNymylDUszkIm8Glq7RGTo",
-      authDomain: "lista-free-wasa.firebaseapp.com",
-      projectId: "lista-free-wasa",
-      storageBucket: "lista-free-wasa.firebasestorage.app",
-      messagingSenderId: "1022448209563",
-      appId: "1:1022448209563:web:1ef3984120b1c357c0803e"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCjRI6e6aaALXNymylDUszkIm8Glq7RGTo",
+    authDomain: "lista-free-wasa.firebaseapp.com",
+    projectId: "lista-free-wasa",
+    storageBucket: "lista-free-wasa.firebasestorage.app",
+    messagingSenderId: "1022448209563",
+    appId: "1:1022448209563:web:1ef3984120b1c357c0803e"
+  };
 
-    // Inicializar Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    // Nueva colección
-    const freeListRef = collection(db, "newFreeList");
+  const contadorRef = doc(db, "contador", "cupos");
+  const cuposSpan = document.getElementById("cupos");
 
-    // -------------------------
-    // 🧠 Función para registrar usuario
-    // -------------------------
-    async function registerUser(name) {
-      try {
-        const snapshot = await getDocs(freeListRef);
-        const count = snapshot.size;
+  async function actualizarContador() {
+    try {
+      const registros = await getDocs(collection(db, "listaFree"));
+      const total = registros.size;
+      const cuposRestantes = 100 - total;
+      cuposSpan.textContent = cuposRestantes;
+    } catch (e) {
+      console.error("❌ Error al contar:", e);
+    }
+  }
 
-        if (count >= 100) {
-          alert("🚫 Lo sentimos, ya no hay más cupos disponibles.");
-          return;
-        }
+  async function registrarPersona(nombre, cedula, telefono) {
+    try {
+      const registros = await getDocs(collection(db, "listaFree"));
+      const existe = registros.docs.some(doc => doc.data().cedula === cedula);
 
-        await addDoc(freeListRef, {
-          name: name,
-          timestamp: new Date()
-        });
-
-        alert("✅ Inscripción exitosa!");
-        document.getElementById("nameInput").value = "";
-      } catch (error) {
-        console.error("Error al registrar:", error);
-        alert("❌ Ocurrió un error al registrar. Intenta nuevamente.");
+      if (existe) {
+        alert("⚠️ Esta cédula ya está registrada.");
+        return;
       }
+
+      if (registros.size >= 100) {
+        alert("🚫 Lista llena, ya no hay cupos disponibles.");
+        return;
+      }
+
+      await addDoc(collection(db, "listaFree"), {
+        nombre,
+        cedula,
+        telefono,
+        fecha: new Date().toISOString()
+      });
+
+      alert("✅ Registrado correctamente.");
+      actualizarContador();
+    } catch (error) {
+      console.error("❌ Error al registrar:", error);
+      alert("Error al registrar. Revisa la consola (Ctrl + Shift + J).");
+    }
+  }
+
+  document.getElementById("registroForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre").value.trim();
+    const cedula = document.getElementById("documento").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+
+    if (!nombre || !cedula || !telefono) {
+      alert("Completa todos los campos.");
+      return;
     }
 
-    // -------------------------
-    // ⏱ Contador en tiempo real
-    // -------------------------
-    function startRealtimeCounter() {
-      const counterElement = document.getElementById("counter");
-      const button = document.getElementById("registerBtn");
+    await registrarPersona(nombre, cedula, telefono);
+    e.target.reset();
+  });
 
-      onSnapshot(freeListRef, (snapshot) => {
-        const count = snapshot.size;
-        counterElement.textContent = `${count}/100 cupos ocupados`;
+  actualizarContador();
+</script>
 
-        if (count >= 100) {
-          counterElement.style.color = "#ef4444";
-          button.disabled = true;
-          button.textContent = "Cupos llenos 🚫";
-        } else {
-          counterElement.style.color = "#22c55e";
-          button.disabled = false;
-          button.textContent = "Inscribirme";
-        }
-      });
-    }
 
-    // -------------------------
-    // 🚀 Inicializar contador y formulario
-    // -------------------------
-    document.addEventListener("DOMContentLoaded", () => {
-      startRealtimeCounter();
-
-      const form = document.getElementById("registerForm");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = document.getElementById("nameInput").value.trim();
-        if (name) registerUser(name);
-      });
-    });
-  </script>
 </body>
 </html>
